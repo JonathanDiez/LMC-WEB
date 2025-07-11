@@ -60,7 +60,7 @@
         <!-- Header -->
         <header class="text-center mb-8">
             <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight gradient-text">Centro de Mando de Actividades</h1>
-            <p class="mt-2 text-lg text-gray-400">Tu calendario y analítica para dominar el roleplay.</p>
+            <p class="mt-2 text-lg text-gray-400">Horario y Calendario de LA MESA</p>
         </header>
 
         <!-- Time & Analytics Section -->
@@ -117,7 +117,7 @@
                     <h2 id="modal-title" class="text-2xl font-bold text-white"></h2>
                     <button onclick="hideActivityModal()" class="text-gray-400 hover:text-white text-3xl leading-none">&times;</button>
                 </div>
-                <img id="modal-image" src="https://placehold.co/600x400/1f2937/374151?text=Actividad" alt="Imagen de la actividad" class="w-full h-48 object-cover rounded-lg mb-4">
+                <img id="modal-image" src="" alt="Imagen de la actividad" class="w-full h-48 object-cover rounded-lg mb-4" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1f2937/374151?text=Imagen+no+disponible';">
                 <div>
                     <h3 class="font-semibold text-lg text-indigo-300 mb-2">Puntos</h3>
                     <p id="modal-points" class="text-white text-lg font-bold"></p>
@@ -138,24 +138,24 @@
         // --- DATA ---
         // Days: 1=Lunes, 2=Martes, 3=Miércoles, 4=Jueves, 5=Viernes, 6=Sábado, 7=Domingo
         const activities = [
-            { name: "Misión de trafico ilegal", days: [1, 4, 6], times: [{s:9, e:12}, {s:17, e:20}, {s:22, e:23}], points: 2, isNew: false, color: 'bg-red-700' },
-            { name: "Robo a negocios", days: [3, 5, 6], times: [{s:0, e:11}, {s:12, e:23}], points: 7, isNew: false, color: 'bg-amber-600' },
-            { name: "Lancha encallada", days: [2, 5, 6, 7], times: [{s:2, e:4}, {s:16, e:18}, {s:18, e:20}, {s:20, e:22}], points: 5, isNew: false, color: 'bg-sky-600' },
-            { name: "Elaboración de meta (Día 1)", days: [1], times: [{s:7, e:23}], points: 31, isNew: false, color: 'bg-purple-600' },
-            { name: "Elaboración de meta (Día 2)", days: [3], times: [{s:7, e:23}], points: 32, isNew: false, color: 'bg-purple-600' },
-            { name: "Elaboración de meta (Día 3)", days: [5], times: [{s:7, e:23}], points: 31, isNew: false, color: 'bg-purple-600' },
-            { name: "Dia de recompensa (Meta)", days: [7], times: [{s:7, e:23}], points: 100, isNew: false, color: 'bg-purple-700' },
-            { name: "Reparto de químicos", days: [1, 4], times: [{s:14, e:20}], points: 10, isNew: false, color: 'bg-green-600' },
-            { name: "Reparto aéreo", days: [2, 5], times: [{s:9, e:12}, {s:17, e:20}, {s:22, e:23}], points: 7, isNew: false, color: 'bg-green-600' },
-            { name: "Búsqueda de contenedores", days: [3, 4, 6, 7], times: [{s:2, e:4}, {s:18, e:20}, {s:20, e:22}, {s:22, e:23}], points: 10, isNew: false, color: 'bg-sky-600' },
-            { name: "Misión de trafico ilegal (Avanzado)", days: [2, 3, 7], times: [{s:7, e:10}, {s:14, e:20}, {s:21, e:22}], points: 1, isNew: false, color: 'bg-red-700' },
-            { name: "Arrasa con sus vehículos", days: [2, 4, 6, 7], times: [{s:18, e:19}, {s:21, e:22}], points: 10, isNew: true, color: 'bg-orange-500' },
-            { name: "Mantenimiento de maquinas de lavado", days: [5], times: [{s:19, e:20}], points: 20, isNew: true, color: 'bg-cyan-600' },
-            { name: "Trafico múltiple", days: [2, 6], times: [{s:21, e:22}], points: 5, isNew: true, color: 'bg-red-700' },
-            { name: "Trafico de órganos", days: [2], times: [{s:19, e:21}], points: 10, isNew: true, color: 'bg-red-700' },
-            { name: "Mantenimiento de secuestrado", days: [1], times: [{s:16, e:23}], points: 10, isNew: true, color: 'bg-rose-600' },
-            { name: "Busqueda acuatica", days: [1, 6, 7], times: [{s:20, e:21}], points: 5, isNew: true, color: 'bg-sky-600' },
-            { name: "Comunicado Interno", days: [1, 2, 3, 4, 5, 6, 7], times: [{s:0, e:23}], points: '?', isNew: true, color: 'bg-slate-500' },
+            { name: "Misión de trafico ilegal", days: [1, 4, 6], times: [{s:9, e:12}, {s:17, e:20}, {s:22, e:23}], points: 2, isNew: false, color: 'bg-red-700', imageUrl: 'https://i.imgur.com/5g17dYS.png' },
+            { name: "Robo a negocios", days: [3, 5, 6], times: [{s:0, e:11}, {s:12, e:23}], points: 7, isNew: false, color: 'bg-amber-600', imageUrl: 'https://i.imgur.com/JUWFF2v.png' },
+            { name: "Lancha encallada", days: [2, 5, 6, 7], times: [{s:2, e:4}, {s:16, e:18}, {s:18, e:20}, {s:20, e:22}], points: 5, isNew: false, color: 'bg-sky-600', imageUrl: 'https://i.imgur.com/7yExPve.png' },
+            { name: "Elaboración de meta (Día 1)", days: [1], times: [{s:7, e:23}], points: 31, isNew: false, color: 'bg-purple-600', imageUrl: 'https://i.imgur.com/hQK0B9C.png' },
+            { name: "Elaboración de meta (Día 2)", days: [3], times: [{s:7, e:23}], points: 32, isNew: false, color: 'bg-purple-600', imageUrl: 'https://i.imgur.com/z9QYoBZ.png' },
+            { name: "Elaboración de meta (Día 3)", days: [5], times: [{s:7, e:23}], points: 31, isNew: false, color: 'bg-purple-600', imageUrl: 'https://i.imgur.com/qbbarlo.png' },
+            { name: "Dia de recompensa (Meta)", days: [7], times: [{s:7, e:23}], points: 100, isNew: false, color: 'bg-purple-700', imageUrl: 'https://i.imgur.com/O3UmMpF.png' },
+            { name: "Reparto de químicos", days: [1, 4], times: [{s:14, e:20}], points: 10, isNew: false, color: 'bg-green-600', imageUrl: 'https://i.imgur.com/cz5l19l.png' },
+            { name: "Reparto aéreo", days: [2, 5], times: [{s:9, e:12}, {s:17, e:20}, {s:22, e:23}], points: 7, isNew: false, color: 'bg-green-600', imageUrl: 'https://i.imgur.com/vgF27D5.png' },
+            { name: "Búsqueda de contenedores", days: [3, 4, 6, 7], times: [{s:2, e:4}, {s:18, e:20}, {s:20, e:22}, {s:22, e:23}], points: 10, isNew: false, color: 'bg-sky-600', imageUrl: 'https://i.imgur.com/G7DZcsj.png' },
+            { name: "Misión de trafico ilegal (Avanzado)", days: [2, 3, 7], times: [{s:7, e:10}, {s:14, e:20}, {s:21, e:22}], points: 1, isNew: false, color: 'bg-red-700', imageUrl: 'https://i.imgur.com/kTvRh1q.png' },
+            { name: "Arrasa con sus vehículos", days: [2, 4, 6, 7], times: [{s:18, e:19}, {s:21, e:22}], points: 10, isNew: true, color: 'bg-orange-500', imageUrl: 'https://i.imgur.com/ZEbgB1c.png' },
+            { name: "Mantenimiento de maquinas de lavado", days: [5], times: [{s:19, e:20}], points: 20, isNew: true, color: 'bg-cyan-600', imageUrl: 'https://i.imgur.com/FgZsNsf.png' },
+            { name: "Trafico múltiple", days: [2, 6], times: [{s:21, e:22}], points: 5, isNew: true, color: 'bg-red-700', imageUrl: 'https://i.imgur.com/njqjUaY.png' },
+            { name: "Trafico de órganos", days: [2], times: [{s:19, e:21}], points: 10, isNew: true, color: 'bg-red-700', imageUrl: 'https://i.imgur.com/yuSriKs.png' },
+            { name: "Mantenimiento de secuestrado", days: [1], times: [{s:16, e:23}], points: 10, isNew: true, color: 'bg-rose-600', imageUrl: 'https://i.imgur.com/YNEosvp.png' },
+            { name: "Busqueda acuatica", days: [1, 6, 7], times: [{s:20, e:21}], points: 5, isNew: true, color: 'bg-sky-600', imageUrl: 'https://i.imgur.com/iXRUwQb.png' },
+            { name: "Comunicado Interno", days: [1, 2, 3, 4, 5, 6, 7], times: [{s:0, e:23}], points: '?', isNew: true, color: 'bg-slate-500', imageUrl: 'https://placehold.co/600x400/475569/ffffff?text=Comunicado' },
         ];
         const dayNames = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
@@ -203,8 +203,7 @@
             calendarContainer.innerHTML = dayNames.map((name, index) => {
                 const dayIndex = index + 1;
                 
-                // Layout algorithm to assign tracks (rows) to non-overlapping activities
-                const tracks = []; // Array of arrays of slots
+                const tracks = []; 
                 const allSlots = [];
                 activities.filter(act => act.days.includes(dayIndex)).forEach(activity => {
                     activity.times.forEach(timeSlot => {
@@ -235,8 +234,8 @@
 
                 const timelineContentHTML = tracks.map(track => {
                     const trackItemsHTML = track.map(slot => {
-                        const start = slot.s + 1;
-                        const duration = slot.e - slot.s;
+                        const start = slot.s * 2 + 1;
+                        const duration = (slot.e - slot.s) * 2;
                         const pointsText = slot.activity.points === '?' ? '?' : `${slot.activity.points} pts`;
                         const newRing = slot.activity.isNew ? 'ring-2 ring-offset-2 ring-pink-500 ring-offset-gray-800' : '';
                         return `
@@ -247,8 +246,18 @@
                             </div>
                         `;
                     }).join('');
-                    return `<div class="grid grid-cols-24 gap-1 h-12 items-center">${trackItemsHTML}</div>`;
+                    return `<div class="grid grid-cols-48 h-12 items-center">${trackItemsHTML}</div>`;
                 }).join('');
+
+                let hourLinesHTML = '';
+                for (let i = 0; i < 48; i++) {
+                    const isHourLine = i % 2 === 0;
+                    if (i === 47) {
+                        hourLinesHTML += `<div class="w-[50px] h-full"></div>`;
+                    } else {
+                        hourLinesHTML += `<div class="w-[50px] h-full border-r ${isHourLine ? 'border-gray-600' : 'border-gray-700 border-dashed'}"></div>`;
+                    }
+                }
 
                 let hourLabelsHTML = '';
                 for (let hour = 0; hour < 24; hour++) {
@@ -259,11 +268,14 @@
                     <div id="day-container-${dayIndex}" class="bg-gray-800 p-4 rounded-2xl border border-gray-700">
                         <h3 class="font-bold text-2xl mb-4 text-center text-white">${name}</h3>
                         <div class="overflow-x-auto custom-scrollbar">
-                            <div class="w-[2400px]">
-                                <div class="space-y-1">
+                            <div class="relative w-[2400px]">
+                                <div class="absolute inset-0 flex z-0">
+                                    ${hourLinesHTML}
+                                </div>
+                                <div class="relative z-10 space-y-1 min-h-[240px]">
                                     ${timelineContentHTML}
                                 </div>
-                                <div class="flex border-t border-gray-700 mt-1">
+                                <div class="relative z-10 flex border-t border-gray-700 mt-1">
                                     ${hourLabelsHTML}
                                 </div>
                             </div>
@@ -278,7 +290,6 @@
             const multiTrafficEl = document.querySelector('#next-multiple-traffic p');
             if (!advTrafficEl || !multiTrafficEl) return;
 
-            // Use HUB time for calculations. Assuming HUB is UTC for this logic.
             const now = new Date();
 
             const findNextOccurrence = (activityName) => {
@@ -287,7 +298,7 @@
 
                 let nextDate = null;
 
-                for (let i = 0; i < 7; i++) {
+                for (let i = 0; i < 14; i++) { // Check next 2 weeks to be safe
                     const checkDate = new Date(now);
                     checkDate.setUTCDate(now.getUTCDate() + i);
                     const dayOfWeek = (checkDate.getUTCDay() === 0) ? 7 : checkDate.getUTCDay();
@@ -335,13 +346,20 @@
 
             document.getElementById('modal-title').textContent = activity.name;
             document.getElementById('modal-points').textContent = activity.points === '?' ? 'Puntos variables según la actividad que toque.' : `${activity.points} Puntos`;
+            document.getElementById('modal-image').src = activity.imageUrl;
             
             const scheduleList = document.getElementById('modal-schedule');
-            scheduleList.innerHTML = activity.days.map(dayIndex => {
+            let scheduleHTML = '';
+            activity.days.forEach(dayIndex => {
                 const day = dayNames[dayIndex - 1];
-                const timeRanges = activity.times.map(t => `${String(t.s).padStart(2,'0')}:00 - ${String(t.e).padStart(2,'0')}:00`).join(', ');
-                return `<li><button onclick="scrollToDay(${dayIndex})" class="w-full text-left p-2 rounded-md bg-gray-700 hover:bg-gray-600 transition-colors"><span class="font-semibold text-white">${day}:</span> ${timeRanges}</button></li>`;
-            }).join('');
+                scheduleHTML += `<div><span class="font-semibold text-white">${day}:</span><div class="flex flex-wrap gap-2 mt-1">`;
+                activity.times.forEach(timeSlot => {
+                    const timeRange = `${String(timeSlot.s).padStart(2,'0')}:00 - ${String(timeSlot.e).padStart(2,'0')}:00`;
+                    scheduleHTML += `<button onclick="scrollToDay(${dayIndex})" class="flex-grow p-2 rounded-md bg-gray-700 hover:bg-gray-600 transition-colors text-sm">${timeRange}</button>`;
+                });
+                scheduleHTML += `</div></div>`;
+            });
+            scheduleList.innerHTML = scheduleHTML;
 
             const modal = document.getElementById('activity-modal');
             modal.classList.remove('hidden');

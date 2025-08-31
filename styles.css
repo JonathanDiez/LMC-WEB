@@ -1,0 +1,310 @@
+/* ============================
+   VARIABLES Y BASE
+   ============================ */
+:root{
+  --primary-gradient: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+  --accent-gradient:  linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);
+  --dark-gradient:    linear-gradient(135deg,#0c0c0c 0%,#1a1a1a 100%);
+  --glass-bg:         rgba(255,255,255,0.05);
+  --glass-border:     rgba(255,255,255,0.1);
+  --neon-glow:        0 0 20px rgba(102,126,234,0.5);
+  --muted:            rgba(148,163,184,0.06);
+  --now-color:        rgba(255,0,80,0.65);
+  --badge-bg:         rgba(230,240,255,1);
+  --badge-color:      #061025;
+}
+
+/* Base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  background:var(--dark-gradient);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Fondo animado */
+.animated-bg{
+  position:fixed; inset:0; opacity:.10; pointer-events:none; z-index:-1;
+  background:
+    radial-gradient(circle at 20% 80%, #667eea 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, #764ba2 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, #f093fb 0%, transparent 50%);
+  background-size:cover; animation:float 20s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0) rotate(0)}
+  33%{transform:translateY(-20px) rotate(1deg)}
+  66%{transform:translateY(10px) rotate(-1deg)}
+}
+
+/* ============================
+   COMPONENTES GLOBALES
+   ============================ */
+
+/* Tarjetas vidrio */
+.glass-card{
+  background:var(--glass-bg);
+  backdrop-filter:blur(10px);
+  border:1px solid var(--glass-border);
+  box-shadow:0 8px 32px rgba(0,0,0,.3);
+  border-radius:1rem;
+}
+
+/* Texto gradient */
+.gradient-text{
+  background:var(--primary-gradient);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+/* Botón neon */
+.neon-button{
+  display:inline-flex; align-items:center; justify-content:center;
+  background:var(--primary-gradient);
+  box-shadow:var(--neon-glow);
+  transition:transform .22s ease, box-shadow .22s ease;
+}
+.neon-button:hover{ transform:translateY(-2px); box-shadow:0 0 30px rgba(102,126,234,.8) }
+
+/* Reloj / cara */
+.clock-face{ background:var(--accent-gradient); border-radius:20px; position:relative; overflow:hidden }
+.clock-face::before{
+  content:""; position:absolute; inset:-2px; background:var(--primary-gradient);
+  border-radius:22px; z-index:-1; opacity:.7;
+}
+
+/* ============================
+   LAYOUT: NAV, HEADER, GRID
+   ============================ */
+
+.floating-nav{
+  position:fixed; top:20px; right:20px; z-index:1000;
+  background:var(--glass-bg); backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border); border-radius:20px; padding:10px;
+}
+
+/* ============================
+   INDICADOR DE VISTA (HUB/LOCAL)
+   - variante rectangular grande -> centrado bajo relojes
+   ============================ */
+
+/* contenedor (dentro de .glass-card normalmente) */
+/* baja y centra usando margen */
+.time-view-large{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 45px;   /* <-- aumenta para bajar el bloque */
+  margin-bottom: 12px;/* margen inferior opcional */
+  width: 100%;
+}
+
+/* indicador moderno (rectángulo centrado) */
+.view-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+
+  /* Ajusta estos valores para cambiar tamaño del rectángulo:
+     - min-width controla ancho mínimo
+     - padding controla altura (vertical)
+  */
+  min-width: 380px;      /* ancho mínimo; sube para hacerlo más ancho */
+  padding: 16px 32px;    /* padding vertical u horizontal (aumenta para mayor "alto") */
+
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 14px;
+  font-weight: 800;
+  color: #e6eefc;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.45);
+  font-size: 15px;
+  letter-spacing: 0.4px;
+  user-select: none;
+  pointer-events: none; /* no interactuable */
+  transition: background .18s ease, box-shadow .18s ease, transform .12s ease;
+  white-space: nowrap;
+}
+
+/* pequeño punto a la izquierda para indicar visualmente HUB/LOCAL */
+.view-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #60a5fa, #3b82f6); /* color HUB por defecto */
+  box-shadow: 0 0 8px rgba(59,130,246,0.25);
+  flex: 0 0 12px;
+  margin-left: 2px;
+}
+
+/* texto interno */
+.view-text { font-weight: 800; color: inherit; font-size: 14px; }
+
+/* estados (colores del punto) */
+.view-indicator.hub .view-dot {
+  background: linear-gradient(180deg, #60a5fa, #3b82f6);
+  box-shadow: 0 0 10px rgba(59,130,246,0.20);
+}
+.view-indicator.local .view-dot {
+  background: linear-gradient(180deg, #34d399, #10b981);
+  box-shadow: 0 0 10px rgba(16,185,129,0.18);
+}
+
+/* fallback visual (desconocido) */
+.view-indicator.unknown .view-dot {
+  background: linear-gradient(180deg,#9ca3af,#6b7280);
+  box-shadow: 0 0 6px rgba(99,102,241,0.06);
+}
+
+/* variante cuadrada (si quieres usar bloque cuadrado en lugar de rectángulo)
+   usa: <div id="time-view-indicator" class="view-indicator square"> ... </div>
+*/
+.view-indicator.square {
+  min-width: unset;
+  width: 160px;
+  height: 160px;
+  padding: 0;
+  border-radius: 12px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.view-indicator.square .view-dot { width: 14px; height: 14px; margin: 0; }
+
+/* pequeño ajuste responsive */
+@media (max-width: 640px) {
+  .view-indicator { padding: 10px 16px; font-size: 13px; border-radius: 10px; gap:8px; min-width:180px; }
+  .view-dot { width:9px; height:9px; }
+  .view-indicator.square { width:120px; height:120px; }
+}
+
+/* ============================
+   TIMELINE / CALENDARIO
+   ============================ */
+
+.timeline-container{
+  background:linear-gradient(90deg, rgba(15,23,42,.8), rgba(30,41,59,.6));
+  border-radius:1rem; backdrop-filter:blur(8px); border:1px solid rgba(148,163,184,.1);
+  padding:1.5rem;
+}
+
+/* Rejilla temporal */
+.timeline-grid{
+  position:relative;
+  background-image:linear-gradient(to right, rgba(148,163,184,.08) 1px, transparent 1px);
+  background-size:100px 100%;
+  min-width:2400px;
+}
+
+/* Items */
+.timeline-item{ position:absolute; height:100%; cursor:pointer; transition:transform .28s cubic-bezier(.4,0,.2,1), z-index .12s; z-index:1 }
+.timeline-item-inner{
+  height:calc(100% - 8px); margin-top:4px; border-radius:12px; position:relative; overflow:hidden;
+  box-shadow:0 4px 15px rgba(0,0,0,.3); backdrop-filter:blur(5px);
+}
+.timeline-item-inner::before{
+  content:""; position:absolute; top:0; left:-100%; width:100%; height:100%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.16), transparent);
+  transition:left .5s ease;
+}
+.timeline-item:hover{ transform:translateY(-2px) scale(1.02); z-index:40; filter:brightness(1.12) }
+.timeline-item:hover .timeline-item-inner::before{ left:100% }
+
+/* Actividad activa */
+.active-activity{ animation:activeGlow 2s ease-in-out infinite }
+@keyframes activeGlow{ 0%,100%{box-shadow:0 0 20px rgba(255,255,255,.3); transform:scale(1)} 50%{box-shadow:0 0 30px rgba(255,255,255,.6); transform:scale(1.05)} }
+
+/* Separador de día (medianoche) */
+.day-transition-marker{ position:absolute; top:0; width:2px; background:rgba(255,255,255,0.12); height:100%; z-index:30 }
+
+/* Badge vertical (día siguiente) */
+.day-transition-badge{
+  position:absolute; top:55%; transform:translate(-50%,-50%) rotate(-90deg);
+  background:rgba(0,0,0,0.32); padding:6px 12px; border-radius:8px; font-size:16px;
+  color:#e6eefc; z-index:31; white-space:nowrap; letter-spacing:0.5px; border:1px solid rgba(255,255,255,0.06);
+  pointer-events:none;
+}
+
+/* Línea "ahora" */
+.now-line{
+  position:absolute; width:2px; background:var(--now-color);
+  z-index:300; box-shadow:0 0 8px rgba(255,0,80,0.25); border-radius:2px;
+  transition:left 500ms linear, height 300ms ease;
+  pointer-events:none;
+}
+
+/* Etiquetas hora */
+.hour-label{
+  background:rgba(15,23,42,.8); backdrop-filter:blur(4px); transition:all .2s ease;
+  min-width:100px; text-align:center; padding:8px 0; border-left:1px solid var(--muted); color:#cbd5e1;
+}
+
+/* ============================
+   SCROLLBAR (WebKit + Firefox)
+   ============================ */
+
+/* IMPORTANTE: aplica estilos cuando el elemento lleva la clase .custom-scrollbar
+   Asegúrate de que el contenedor tenga overflow (p.e. `overflow-x-auto custom-scrollbar`) */
+
+/* WebKit (Chrome, Edge, Safari) */
+.custom-scrollbar::-webkit-scrollbar { height:10px; width:10px; background:transparent }
+.custom-scrollbar::-webkit-scrollbar-track { background: rgba(31,41,55,0.45); border-radius:999px }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg,#667eea,#764ba2);
+  border-radius:999px;
+  border:2px solid rgba(0,0,0,0.12);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { filter:brightness(.95) }
+
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #667eea rgba(31,41,55,0.45);
+  -webkit-overflow-scrolling: touch; /* smooth on iOS */
+}
+
+/* Asegurar que el contenedor que recibe .custom-scrollbar se comporte bien */
+.timeline-container .custom-scrollbar { -webkit-overflow-scrolling: touch; }
+
+/* ============================
+   MODAL Y UTILES
+   ============================ */
+
+.modal-backdrop{ background:rgba(0,0,0,.8); backdrop-filter:blur(5px); transition:all .3s ease }
+.modal-content{ background:var(--glass-bg); backdrop-filter:blur(20px); border:1px solid var(--glass-border); box-shadow:0 25px 50px rgba(0,0,0,.5); transition:all .3s cubic-bezier(.34,1.56,.64,1) }
+
+.stat-card{ position:relative; overflow:hidden; background:var(--glass-bg); border:1px solid var(--glass-border); backdrop-filter:blur(10px); border-radius:.75rem; padding:1rem }
+
+.pulse-dot{ animation:pulseGlow 2s ease-in-out infinite }
+@keyframes pulseGlow{ 0%,100%{opacity:1; transform:scale(1)} 50%{opacity:.7; transform:scale(1.1)} }
+.loading-shimmer{ background:linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent); animation:shimmer 2s infinite }
+@keyframes shimmer{ 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+
+/* Line clamp (truncado a 2 líneas) */
+.line-clamp-2{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  line-clamp:2;
+  overflow:hidden;
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width:768px){
+  .floating-nav{ position:relative; top:auto; right:auto; margin-bottom:12px }
+  .hour-label{ min-width:80px; font-size:12px; padding:6px 0 }
+  .day-transition-badge{ font-size:14px; padding:4px 10px }
+}

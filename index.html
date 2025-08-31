@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calendario de Actividades del Roleplay</title>
+
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="animated-bg"></div>
+
+  <!-- Toggle flotante -->
+  <div class="floating-nav md:block hidden">
+    <button id="timezone-toggle" class="neon-button text-white font-semibold py-3 px-6 rounded-full transition-all duration-300">
+      <span id="tz-toggle-text" class="relative z-10">🌍 Ver Hora Local</span>
+    </button>
+  </div>
+
+  <div class="container mx-auto px-4 py-8 max-w-7xl">
+    <!-- Header -->
+    <header class="text-center mb-6 relative">
+      <div class="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-blue-600/20 to-purple-600/20 blur-3xl"></div>
+      <div class="relative">
+        <h1 class="text-5xl md:text-6xl font-black tracking-tight gradient-text mb-2">CALENDARIO LM</h1>
+        <p class="text-gray-400 text-lg">Calendario Inteligente de LA MESA</p>
+      </div>
+    </header>
+
+    <!-- Top grid (relojes + analytics) -->
+    <div class="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-8">
+      <div class="xl:col-span-2">
+        <div class="glass-card rounded-3xl p-6 h-full">
+          <h2 class="text-2xl font-bold mb-4 text-white flex items-center gap-3">
+            <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center"><span class="text-white text-sm">🕐</span></div>
+            Sincronización Temporal
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="clock-face p-4 text-center relative">
+              <div class="absolute inset-2 bg-slate-900/50 rounded-2xl backdrop-blur-sm"></div>
+              <div class="relative z-10">
+                <p class="text-sm font-bold text-blue-100 mb-1">HORA LOCAL</p>
+                <p id="local-time" class="text-2xl font-black text-white tracking-wider">--:--:--</p>
+                <p id="local-tz" class="text-xs text-blue-200 mt-1">Zona</p>
+              </div>
+            </div>
+
+            <div class="clock-face p-4 text-center relative">
+              <div class="absolute inset-2 bg-slate-900/50 rounded-2xl backdrop-blur-sm"></div>
+              <div class="relative z-10">
+                <p class="text-sm font-bold text-cyan-100 mb-1">HORA HUB (UTC)</p>
+                <p id="hub-time" class="text-2xl font-black text-white tracking-wider">--:--:--</p>
+                <p class="text-xs text-cyan-200 mt-1">Servidor UTC</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Indicador claro de vista actual -->
+          <div class="time-view-large" aria-hidden="true">
+            <div id="time-view-indicator" class="view-indicator hub" role="status" aria-live="polite" aria-atomic="true">
+                <span class="view-dot" aria-hidden="true"></span>
+                <span id="time-view-text" class="view-text">HORA HUB</span>
+            </div>
+          </div>
+
+
+          <div class="mt-4 text-center md:hidden">
+            <button id="mobile-timezone-toggle" class="neon-button text-white font-bold py-2 px-6 rounded-full transition-all duration-300">Ver en Hora Local</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="xl:col-span-2">
+        <div class="glass-card rounded-3xl p-6 h-full">
+          <h2 class="text-2xl font-bold mb-4 text-white flex items-center gap-3">
+            <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center"><span class="text-white text-sm">📊</span></div>
+            Analytics en Tiempo Real
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div id="best-days" class="stat-card p-4 rounded-xl"><div class="loading-shimmer absolute inset-0 rounded-xl"></div></div>
+            <div id="calmest-days" class="stat-card p-4 rounded-xl"><div class="loading-shimmer absolute inset-0 rounded-xl"></div></div>
+
+            <div class="stat-card p-4 rounded-xl">
+              <h3 class="font-bold text-sm mb-2 text-emerald-300 flex items-center gap-2"><span class="w-2 h-2 bg-emerald-400 rounded-full pulse-dot"></span>TRÁFICO AVANZADO</h3>
+              <p id="adv-count" class="text-lg font-bold text-white">Calculando...</p>
+            </div>
+
+            <div class="stat-card p-4 rounded-xl">
+              <h3 class="font-bold text-sm mb-2 text-rose-300 flex items-center gap-2"><span class="w-2 h-2 bg-rose-400 rounded-full pulse-dot"></span>TRÁFICO MÚLTIPLE</h3>
+              <p id="mul-count" class="text-lg font-bold text-white">Calculando...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendario principal -->
+    <div class="glass-card rounded-3xl p-6 mb-8">
+      <div id="calendar-container" class="space-y-6"></div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="activity-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden opacity-0">
+    <div class="modal-content rounded-3xl w-full max-w-lg border transform scale-95">
+      <div class="relative overflow-hidden rounded-t-3xl">
+        <img id="modal-image" src="" alt="Imagen de la actividad" class="w-full h-64 object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        <button onclick="hideActivityModal()" class="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors"><span class="text-xl leading-none">×</span></button>
+        <div class="absolute bottom-4 left-4 right-4">
+          <h2 id="modal-title" class="text-2xl font-black text-white mb-2"></h2>
+          <div id="modal-time-mode" class="text-sm text-gray-300 mb-2"></div>
+          <div id="modal-points-badge" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-black"><span class="mr-1">⭐</span><span id="modal-points">0 pts</span></div>
+        </div>
+      </div>
+      <div class="p-6 bg-gradient-to-b from-gray-900 to-black rounded-b-3xl">
+        <div class="mb-6">
+          <h3 class="font-bold text-lg text-cyan-300 mb-3 flex items-center gap-2"><span class="w-5 h-5 bg-cyan-500 rounded-full flex items-center justify-center text-xs">📋</span> Horarios Disponibles</h3>
+          <ul id="modal-schedule" class="space-y-3"></ul>
+        </div>
+        <div class="flex gap-3">
+          <button onclick="hideActivityModal()" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300">Cerrar</button>
+          <button onclick="hideActivityModal()" class="flex-1 neon-button text-white font-bold py-3 px-6 rounded-xl">Ir al Día</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js" defer></script>
+</body>
+</html>

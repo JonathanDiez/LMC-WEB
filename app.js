@@ -17,8 +17,8 @@ const activities = [
   { name: "Trafico de órganos", days: [2], times: [{s:19,e:21}], points:10, color:'bg-gradient-to-r from-red-700 to-rose-800', imageUrl:'https://i.imgur.com/yuSriKs.png' },
   { name: "Mantenimiento de secuestrado", days: [1], times: [{s:16,e:23}], points:10, color:'bg-gradient-to-r from-rose-700 to-pink-800', imageUrl:'https://i.imgur.com/YNEosvp.png' },
   { name: "Busqueda acuatica", days: [1,6,0], times: [{s:20,e:21}], points:5, color:'bg-gradient-to-r from-cyan-500 to-blue-600', imageUrl:'https://i.imgur.com/iXRUwQb.png' }
-  // { name: "Tráfico Aéreo", days: [5,0], times: [{s:1,e:3},{s:10,e:12},{s:14,e:20}], points:2, color:'bg-gradient-to-r from-indigo-500 to-blue-600', imageUrl:'https://placehold.co/600x400/4f46e5/ffffff?text=Tr%C3%A1fico+A%C3%A9reo' },
-  // { name: "Barriles a la Deriva", days: [3,6], times: [{s:9,e:12},{s:16,e:18}], points:2, color:'bg-gradient-to-r from-amber-600 to-yellow-600', imageUrl:'https://placehold.co/600x400/f59e0b/ffffff?text=Barriles+a+la+Deriva' }
+  { name: "Tráfico Aéreo", days: [5,0], times: [{s:1,e:3},{s:10,e:12},{s:14,e:20}], points:2, color:'bg-gradient-to-r from-indigo-500 to-blue-600', imageUrl:'https://placehold.co/600x400/4f46e5/ffffff?text=Tr%C3%A1fico+A%C3%A9reo' },
+  { name: "Barriles a la Deriva", days: [3,6], times: [{s:9,e:12},{s:16,e:18}], points:2, color:'bg-gradient-to-r from-amber-600 to-yellow-600', imageUrl:'https://placehold.co/600x400/f59e0b/ffffff?text=Barriles+a+la+Deriva' }
 ];
 
 const dayNames = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
@@ -462,3 +462,4 @@ window.scrollToDay = scrollToDay;
 
 
 function debounce(fn, wait){ let t; return (...a)=>{ clearTimeout(t); t = setTimeout(()=> fn(...a), wait); }; }
+

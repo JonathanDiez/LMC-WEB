@@ -1,4 +1,3 @@
-/* Datos de actividades */
 const activities = [
   { name: "Misión de trafico ilegal", days: [1, 4, 6], times: [{ s: 9, e: 12 }, { s: 17, e: 20 }, { s: 22, e: 23 }], points: 2, color: 'bg-gradient-to-r from-red-600 to-red-700', imageUrl: 'https://i.imgur.com/5g17dYS.png' },
   { name: "Robo a negocio", days: [1, 3, 5, 0], times: [{ s: 0, e: 11 }, { s: 12, e: 23 }], points: 7, color: 'bg-gradient-to-r from-amber-600 to-orange-600', imageUrl: 'https://i.imgur.com/JUWFF2v.png' },
@@ -22,11 +21,10 @@ const activities = [
 ];
 
 const dayNames = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-let currentView = 'hub'; // 'hub' o 'local'
+let currentView = 'hub';
 const localOffsetHours = Math.round(new Date().getTimezoneOffset() / -60);
 const lastTrackAssignment = {};
 
-/* utilidades */
 function two(n) { return String(n).padStart(2, '0'); }
 function formatHHMMSSFromDate(d, useUTC = false) {
   if (!d || !(d instanceof Date)) return '--:--:--';
@@ -45,7 +43,6 @@ function getLocalTZLabel() {
   return `GMT${sign}${two(hours)}:${two(mins)}`;
 }
 
-/* Actualizar relojes visibles */
 function updateClocks() {
   const now = new Date();
   const localEl = document.getElementById('local-time');
@@ -55,7 +52,7 @@ function updateClocks() {
   const tzToggleText = document.getElementById('tz-toggle-text');
 
   if (localEl) localEl.textContent = formatHHMMSSFromDate(now, false);
-  if (hubEl) hubEl.textContent = formatHHMMSSFromDate(now, true); // HUB = UTC
+  if (hubEl) hubEl.textContent = formatHHMMSSFromDate(now, true);
   if (localTzEl) localTzEl.textContent = getLocalTZLabel();
   if (indicator) {
     const textEl = document.getElementById('time-view-text');
@@ -70,14 +67,12 @@ function updateClocks() {
         indicator.classList.add('local');
       }
     } else {
-      // fallback: si el span no existe, escribir en el container
       indicator.textContent = currentView === 'hub' ? 'HORA HUB' : 'HORA LOCAL';
     }
   }
   if (tzToggleText) tzToggleText.textContent = currentView === 'hub' ? '🌍 Ver Hora Local' : '🏢 Ver Hora HUB';
 }
 
-/* Generación del calendario */
 function generateContent() {
   const container = document.getElementById('calendar-container');
   if (!container) return;
@@ -201,7 +196,6 @@ function generateContent() {
 
   container.innerHTML = htmlDays.join('');
 
-  // enlazar clicks
   document.querySelectorAll('.timeline-item').forEach(it => {
     it.addEventListener('click', () => {
       const name = decodeURIComponent(it.getAttribute('data-activity') || '');
@@ -213,7 +207,6 @@ function generateContent() {
   updateActiveStatus();
 }
 
-/* Mantener actividad en la misma pista si es posible */
 function assignTracksForDay(slots, dayHub) {
   if (!lastTrackAssignment[dayHub]) lastTrackAssignment[dayHub] = {};
   const tracks = [];
@@ -244,7 +237,6 @@ function assignTracksForDay(slots, dayHub) {
   return tracks;
 }
 
-/* Dibuja la línea "ahora" y soporta horas extendidas */
 function injectNowLines() {
   document.querySelectorAll('.now-line').forEach(n => n.remove());
   const now = new Date();
@@ -291,7 +283,6 @@ function injectNowLines() {
   });
 }
 
-/* Resalta la actividad en curso (considera horas extendidas) */
 function updateActiveStatus() {
   const now = new Date();
   const isHub = currentView === 'hub';
@@ -318,7 +309,6 @@ function updateActiveStatus() {
   });
 }
 
-/* Analytics (resumen simple) */
 function updateAnalytics() {
   const dailyActivityCount = new Array(7).fill(0);
   const dailyPoints = new Array(7).fill(0);
@@ -339,7 +329,6 @@ function updateAnalytics() {
   if (cd) cd.innerHTML = `<div class="relative z-10"><h3 class="font-bold text-sm mb-3 text-blue-300 flex items-center gap-2"><span class="w-2 h-2 bg-blue-400 rounded-full pulse-dot"></span>MÁS TRANQUILO</h3><p class="text-2xl font-black text-white mb-1">${calmestDays.join(', ')}</p><p class="text-sm text-blue-300"><span class="font-bold text-lg text-blue-200">${minActivities}</span> actividades</p></div>`;
 }
 
-/* Contadores para los dos items principales */
 function updateCountdowns() {
   const now = new Date();
   const nowUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
@@ -375,7 +364,6 @@ function updateCountdowns() {
   if (mulEl) mulEl.textContent = fmt(findNext("Trafico múltiple"));
 }
 
-/* Modal */
 function showActivityModal(name) {
   const act = activities.find(a => a.name === name);
   if (!act) return;
@@ -416,7 +404,6 @@ function getDayNameAfterOffset(dayHub, offsetDays) {
   return dayNames[(newIndex + 7) % 7];
 }
 
-/* Inicialización */
 document.addEventListener('DOMContentLoaded', () => {
   const tzBtn = document.getElementById('timezone-toggle');
   if (tzBtn) {
@@ -454,11 +441,8 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => document.body.style.opacity = '1', 80);
 });
 
-// Exponer handlers usados por atributos inline
-// Esto es necesario porque app.js se carga como module y sus funciones no van a window por defecto.
 window.showActivityModal = showActivityModal;
 window.hideActivityModal = hideActivityModal;
 window.scrollToDay = scrollToDay;
-
 
 function debounce(fn, wait) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), wait); }; }
